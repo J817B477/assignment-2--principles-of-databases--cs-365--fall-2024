@@ -75,8 +75,30 @@ END//
 
 
 -- COMMAND 4: Changes a URL associated with one of the passwords in the initial 10 entries
+CREATE PROCEDURE IF NOT EXISTS UPDATE_PASSWORD_URL(
+  password VARCHAR(35),
+  new_url VARCHAR(256),
+  site_name VARCHAR(100)
+  )
+BEGIN
+  INSERT IGNORE INTO website
+  (site_name, url)
+  VALUES
+  (site_name, new_url);
+
+  UPDATE password SET url = new_url
+  WHERE encrypted_password = AES_ENCRYPT(password, @key_str, @init_vector);
+END//
 
 -- COMMAND 5: Changes any password
+CREATE PROCEDURE IF NOT EXISTS CHANGE_PASSWORD(
+  old_password VARCHAR(35),
+  new_password VARCHAR(35)
+)
+BEGIN
+  UPDATE password SET encrypted_password = AES_ENCRYPT(new_password, @key_str, @init_vector)
+  WHERE encrypted_password = AES_ENCRYPT(old_password, @key_str, @init_vector);
+END//
 
 -- COMMAND 6: Removes a tuple based one of a specific user's saved URLs
 
