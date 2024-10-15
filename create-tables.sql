@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS password(
   encrypted_password VARBINARY(256) NOT NULL,
   user_name VARCHAR(65) NOT NULL,
   timestamp TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
-  comment VARCHAR(1000) DEFAULT 'no comment',
+  comment VARCHAR(1000),
   PRIMARY KEY (email_address,url),
   FOREIGN KEY (email_address) REFERENCES user (email_address),
   FOREIGN KEY (url) REFERENCES website (url),
