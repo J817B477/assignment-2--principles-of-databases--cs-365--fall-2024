@@ -31,8 +31,8 @@ INSERT INTO website
     (email_address, url, encrypted_password, user_name)
     VALUES
     ('jb@gmail.com', 'https://github.com', AES_ENCRYPT('sticky putty', @key_str, @init_vector), 'J817B477'),
-    ('jb@gmail.com', 'https://www.amazon.com', AES_ENCRYPT('kerosene_heater', @key_str, @init_vector), 'John Bennett'),
-    ('ian.malcolm@outlook.com', 'https://www.nypremiumoil.com', AES_ENCRYPT('chaos_theory', @key_str, @init_vector),'Malcolm.I'),
+    ('jb@gmail.com', 'https://www.amazon.com', AES_ENCRYPT('kerosene heater', @key_str, @init_vector), 'John Bennett'),
+    ('ian.malcolm@outlook.com', 'https://www.nypremiumoil.com', AES_ENCRYPT('chaos theory', @key_str, @init_vector),'Malcolm.I'),
     ('johnbennett@hartford.edu', 'https://www.ctpremiumoil.com', AES_ENCRYPT('sad dinosaur', @key_str, @init_vector), 'John Bennett'),
     ('johnbennett@hartford.edu', 'https://accounts.spotify.com/', AES_ENCRYPT('rebel music', @key_str, @init_vector), 'J477'),
     ('g.sanderson@3blue1brown.com', 'https://github.com', AES_ENCRYPT('math in motion', @key_str, @init_vector), '3b1b'),
