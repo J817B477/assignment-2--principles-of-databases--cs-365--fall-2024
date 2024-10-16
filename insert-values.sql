@@ -39,4 +39,4 @@ INSERT INTO website
     ('g.sanderson@3blue1brown.com', 'https://accounts.spotify.com/', AES_ENCRYPT('math is music', @key_str, @init_vector), '3b1b'),
     ('g.sanderson@3blue1brown.com', 'https://www.linkedin.com/', AES_ENCRYPT('free conferences', @key_str, @init_vector), 'Grant Sanderson'),
     ('jj@joshjohnsoncomedy.com', 'https://www.nytimes.com/', AES_ENCRYPT('not funny material', @key_str, @init_vector), 'J.Johnson'),
-    ('jj@joshjohnsoncomedy.com', 'https://www.linkedin.com/', AES_ENCRYPT('comedy business b', @key_str, @init_vector), 'Josh Johnson Comedy');
+    ('jj@joshjohnsoncomedy.com', 'https://www.linkedin.com/', AES_ENCRYPT('comedy business', @key_str, @init_vector), 'Josh Johnson Comedy');
