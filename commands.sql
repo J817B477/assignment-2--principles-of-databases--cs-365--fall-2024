@@ -118,5 +118,26 @@ BEGIN
 END//
 
 -- Command 7: Removes a tuple based on a password
+CREATE PROCEDURE IF NOT EXISTS REMOVE_PASSWORD(
+  user_email VARCHAR(65),
+  current_password VARCHAR(35)
+)
+BEGIN
+  -- the temp_url variable is used to remove the url from 'website' relation if it no longer
+  -- exists in the password relation
+  -- ('user' relation remains the same based on assumption user not quitting password service)
+  DECLARE temp_url VARCHAR(256);
+  SELECT url INTO temp_url
+  FROM password
+  WHERE email_address = user_email AND encrypted_password = AES_ENCRYPT(current_password, @key_str, @init_vector);
+
+  DELETE
+  FROM password
+  WHERE email_address = user_email AND encrypted_password = AES_ENCRYPT(current_password, @key_str, @init_vector);
+
+  DELETE IGNORE
+  FROM  website
+  WHERE url = temp_url;
+END//
 
 DELIMITER ; -- changes delimiter back to ";"
