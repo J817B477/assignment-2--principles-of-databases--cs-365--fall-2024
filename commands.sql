@@ -237,4 +237,3 @@ DELIMITER ; -- changes delimiter back to ";"
 
 -- SELECT* FROM password;
 -- SELECT* FROM website;
-
