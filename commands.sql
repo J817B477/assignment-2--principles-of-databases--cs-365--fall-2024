@@ -1,6 +1,8 @@
+
+DELIMITER // -- changes delimiter globally while maintaining it locally
+
 -- COMMAND 1: adds new password entry into passwords db across all tables
-DELIMITER //
-CREATE PROCEDURE IF NOT EXISTS PASSWORD_ENTRY (
+CREATE PROCEDURE IF NOT EXISTS PASSWORD_ENTRY(
   first_name VARCHAR(50),
   last_name VARCHAR(50),
   email_address VARCHAR(65),
@@ -22,7 +24,8 @@ BEGIN
   VALUES
   (site_name, url);
 
-  -- NO 'IGNORE' intentionally returns error and aborts the procedure call to ensure user knows entry not added in case of PRIMARY KEY duplicates
+  -- NO 'IGNORE' intentionally returns error and aborts the procedure call to ensure
+  -- user knows entry not added in case of PRIMARY KEY duplicates
   INSERT INTO password
   (email_address, url, encrypted_password, user_name, timestamp, comment)
   VALUES (
@@ -35,12 +38,9 @@ BEGIN
   );
 END//
 
-
-
 -- COMMAND 2: Retrieves a plain text password from a given user email and url
 -- because there are multiple users and therefore multiple of the
 -- url for different users, I used both parameters (as they define the primary key)
-
 CREATE PROCEDURE IF NOT EXISTS RETRIEVE_PASSWORD(
   email_address VARCHAR(65),
   url VARCHAR(256)
@@ -53,8 +53,8 @@ BEGIN
 END//
 
 
--- COMMAND 3: Retrieves all password information about URLs that contain 'https' in 2 of the initial 10 entries
-
+-- COMMAND 3: Retrieves all password information about URLs that contain 'https'
+-- in 2 of the initial 10 entries
 CREATE PROCEDURE IF NOT EXISTS RETRIEVE_2HTTPS()
 BEGIN
   SELECT site_name,
@@ -79,7 +79,7 @@ CREATE PROCEDURE IF NOT EXISTS UPDATE_PASSWORD_URL(
   password VARCHAR(35),
   new_url VARCHAR(256),
   site_name VARCHAR(100)
-  )
+)
 BEGIN
   INSERT IGNORE INTO website
   (site_name, url)
@@ -101,7 +101,22 @@ BEGIN
 END//
 
 -- COMMAND 6: Removes a tuple based one of a specific user's saved URLs
+CREATE PROCEDURE IF NOT EXISTS REMOVE_URL(
+  user_email VARCHAR(65),
+  site_url VARCHAR(256)
+)
+BEGIN
+  DELETE
+  FROM password
+  WHERE email_address = user_email AND url = site_url;
+
+  -- 'IGNORE' ensures that procedure will run even if foreign key constraint violated
+  -- (which is still prevented from happening)
+  DELETE IGNORE
+  FROM  website
+  WHERE url = site_url;
+END//
 
 -- Command 7: Removes a tuple based on a password
 
-DELIMITER ;
+DELIMITER ; -- changes delimiter back to ";"
