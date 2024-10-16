@@ -1,3 +1,4 @@
+-- PROCEDURE CALLS at end of definitions
 
 DELIMITER // -- changes delimiter globally while maintaining it locally
 
@@ -141,3 +142,99 @@ BEGIN
 END//
 
 DELIMITER ; -- changes delimiter back to ";"
+
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+-- below CALLs are for each of the commands, tests special cases; run effectively in this order
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- tests command 1:
+-- (will be the only 2 entries that are not 'https')
+
+-- CALL PASSWORD_ENTRY(
+--   'John', 'Bennett',
+--   'johnbennett@hartford.edu',
+--   'Wayne Shorter Fan Club',
+--   'wayneshorterfans.com',
+--   'Mr.Shorter',
+--   'orbits',
+--   'clearly stable');
+
+-- CALL PASSWORD_ENTRY(
+--   'Wayne',
+--   'Shorter',
+--   'ws@wayneshorter.com',
+--   'NYC Saxophone Repair',
+--   'nycsaxrepair.com',
+--   'Mr.Shorter',
+--   'dance cadaverous',
+--   NULL);
+
+-- -- shows outcome:
+-- SELECT*
+--   FROM password
+--   INNER JOIN user USING (email_address)
+--   INNER JOIN website USING (url);
+
+-- -- ---------------------------------------------------------------
+
+-- -- tests command 2:
+
+-- CALL RETRIEVE_PASSWORD(
+--   'jj@joshjohnsoncomedy.com',
+--   'https://www.nytimes.com/');
+
+-- CALL RETRIEVE_PASSWORD(
+--   'jj@joshjohnsoncomedy.com',
+--   'https://www.nytimes.com/');
+
+-- -- ---------------------------------------------------------------
+
+-- -- tests command 3:
+
+-- CALL RETRIEVE_2HTTPS();
+-- -- ---------------------------------------------------------------
+
+-- -- tests command 4:
+
+-- CALL UPDATE_PASSWORD_URL('free conferences', 'https://www.nytimes.com/', 'NYT');
+
+-- CALL UPDATE_PASSWORD_URL('chaos theory', 'https://www.google.com/', 'Google');
+
+-- -- shows outcome:
+-- SELECT*
+--   FROM password
+--   INNER JOIN website USING (url);
+
+-- -- ---------------------------------------------------------------
+
+-- -- tests command 5:
+
+-- -- shows password before change
+-- CALL RETRIEVE_PASSWORD('johnbennett@hartford.edu', 'https://accounts.spotify.com/');
+
+-- CALL CHANGE_PASSWORD('rebel music', 'i see in color');
+
+-- -- shows password after change
+-- CALL RETRIEVE_PASSWORD('johnbennett@hartford.edu', 'https://accounts.spotify.com/');
+
+-- -- ---------------------------------------------------------------
+
+-- -- tests command 6:
+
+-- CALL REMOVE_URL('johnbennett@hartford.edu', 'https://www.ctpremiumoil.com');
+
+-- SELECT* FROM password;
+-- SELECT* FROM website;
+
+-- -- ---------------------------------------------------------------
+
+-- -- tests command 7:
+
+-- CALL REMOVE_PASSWORD('g.sanderson@3blue1brown.com', 'math in motion'); -- intentionally creates warning
+
+-- SELECT* FROM password;
+-- SELECT* FROM website;
+
